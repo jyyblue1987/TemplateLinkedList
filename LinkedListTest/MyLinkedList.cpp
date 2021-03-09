@@ -36,13 +36,13 @@ SLinkedList<E>::~SLinkedList()
 	SNode<E> *next = NULL;
 	while(cur != NULL) {
 		next = cur->next;
-		delete(cur);
+		delete cur;
 		cur = next;
 	}
 }
 
 template <typename E>
-bool SLinkedList<E>::empty() const
+bool SLinkedList<E>::empty() const 
 {
 	return head == NULL;
 }
@@ -57,7 +57,7 @@ const E& SLinkedList<E>::front() const
 }
 
 template <typename E>
-const E& SLinkedList<E>::last() const 
+const E& SLinkedList<E>::last() const
 {
 	if( tail == NULL )
 		throw new LinkedException("empty linked list");
@@ -68,7 +68,7 @@ const E& SLinkedList<E>::last() const
 template <typename E>
 void SLinkedList<E>::addFront(const E& e)
 {
-	SNode<E> *s = (SNode<E> *) malloc(sizeof(SNode<E>));
+	SNode<E> *s = new SNode<E>();
 	s->node = e;
 
 	if( head == NULL )	// empty list
@@ -90,7 +90,6 @@ void SLinkedList<E>::addFront(const E& e)
 template <typename E>
 void SLinkedList<E>::addLast(const E& e)
 {
-	// SNode<E> *s = (SNode<E> *) malloc(sizeof(SNode<E>));
 	SNode<E> *s = new SNode<E>();
 	s->node = e;
 
@@ -118,9 +117,16 @@ void SLinkedList<E>::removeFront()
 		throw new LinkedException("empty linked list");
 
 	SNode<E> *next = head->next;
-	delete(head);
+	delete head;
+
+	if( next == NULL )
+	{
+		tail = NULL;
+		return;
+	}
 
 	head = next;		
+	head->prev = NULL;	
 }
 
 template <typename E>
@@ -130,9 +136,16 @@ void SLinkedList<E>::removeLast()
 		throw new LinkedException("empty linked list");
 
 	SNode<E> *prev = tail->prev;
-	delete(tail);
+	delete tail;
+
+	if( prev == NULL )
+	{
+		head = NULL;
+		return;
+	}
 
 	tail = prev;	
+	tail->next = NULL;
 }
 
 template <typename E>
@@ -158,26 +171,36 @@ void SLinkedList<E>::print()
 int main() {
 	srand ( time(NULL) );
 
-	SLinkedList<int> intList;
+	try {
+		SLinkedList<int> intList;
+		cout << intList.empty() << endl;
+		//cout << intList.front() << endl;
+		//intList.removeFront();
 	
-	int i = 0; 
-	for(i = 0; i < 50; i++)
-	{
-		int n = rand() % 100 + 1;
-		intList.addLast(n);
-	}
-	intList.print();
+		int i = 0; 
+		for(i = 0; i < 50; i++)
+		{
+			int n = rand() % 100 + 1;
+			intList.addLast(n);
+		}
+		intList.print();
 
-	SLinkedList<string> stringList;
+		SLinkedList<string> stringList;
 
-	for(i = 0; i < 100; i++)
-	{		
-		char szBuff[100];	
-		sprintf(szBuff, "Customer %d", (i + 1));
-		string val = szBuff;
-		stringList.addLast(val);
+		for(i = 0; i < 100; i++)
+		{		
+			char szBuff[100];	
+			sprintf(szBuff, "Customer %d", (i + 1));
+			string val = szBuff;
+			stringList.addFront(val);
+		}
+		stringList.print();
+
+		stringList.removeLast();
+		stringList.print();
+	} catch(LinkedException& e) {
+		cout << e.getMessage() << endl;
 	}
-	stringList.print();
 
 	return 0;
 }
