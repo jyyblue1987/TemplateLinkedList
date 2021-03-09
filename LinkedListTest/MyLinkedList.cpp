@@ -41,12 +41,14 @@ SLinkedList<E>::~SLinkedList()
 	}
 }
 
+// O(1)
 template <typename E>
 bool SLinkedList<E>::empty() const 
 {
 	return head == NULL;
 }
 
+// O(1)
 template <typename E>
 const E& SLinkedList<E>::front() const
 {
@@ -56,6 +58,7 @@ const E& SLinkedList<E>::front() const
 	return head->node;
 }
 
+// O(1)
 template <typename E>
 const E& SLinkedList<E>::last() const
 {
@@ -65,6 +68,7 @@ const E& SLinkedList<E>::last() const
 	return tail->node;
 }
 
+// O(1)
 template <typename E>
 void SLinkedList<E>::addFront(const E& e)
 {
@@ -87,6 +91,7 @@ void SLinkedList<E>::addFront(const E& e)
 	}
 }
 
+// O(1)
 template <typename E>
 void SLinkedList<E>::addLast(const E& e)
 {
@@ -110,6 +115,7 @@ void SLinkedList<E>::addLast(const E& e)
 	}
 }
 
+// O(1)
 template <typename E>
 void SLinkedList<E>::removeFront()
 {
@@ -129,6 +135,7 @@ void SLinkedList<E>::removeFront()
 	head->prev = NULL;	
 }
 
+// O(1)
 template <typename E>
 void SLinkedList<E>::removeLast()
 {
@@ -148,6 +155,7 @@ void SLinkedList<E>::removeLast()
 	tail->next = NULL;
 }
 
+// O(n)
 template <typename E>
 void SLinkedList<E>::print()
 {
@@ -192,11 +200,14 @@ int main() {
 			char szBuff[100];	
 			sprintf(szBuff, "Customer %d", (i + 1));
 			string val = szBuff;
-			stringList.addFront(val);
+			stringList.addLast(val);
 		}
 		stringList.print();
 
 		stringList.removeLast();
+		stringList.print();
+
+		stringList.removeFront();
 		stringList.print();
 	} catch(LinkedException& e) {
 		cout << e.getMessage() << endl;
