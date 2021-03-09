@@ -36,7 +36,7 @@ SLinkedList<E>::~SLinkedList()
 	SNode<E> *next = NULL;
 	while(cur != NULL) {
 		next = cur->next;
-		free(cur);
+		delete(cur);
 		cur = next;
 	}
 }
@@ -90,7 +90,8 @@ void SLinkedList<E>::addFront(const E& e)
 template <typename E>
 void SLinkedList<E>::addLast(const E& e)
 {
-	SNode<E> *s = (SNode<E> *) malloc(sizeof(SNode<E>));
+	// SNode<E> *s = (SNode<E> *) malloc(sizeof(SNode<E>));
+	SNode<E> *s = new SNode<E>();
 	s->node = e;
 
 	if( head == NULL )	// empty list
@@ -117,7 +118,7 @@ void SLinkedList<E>::removeFront()
 		throw new LinkedException("empty linked list");
 
 	SNode<E> *next = head->next;
-	free(head);
+	delete(head);
 
 	head = next;		
 }
@@ -129,7 +130,7 @@ void SLinkedList<E>::removeLast()
 		throw new LinkedException("empty linked list");
 
 	SNode<E> *prev = tail->prev;
-	free(tail);
+	delete(tail);
 
 	tail = prev;	
 }
@@ -169,14 +170,14 @@ int main() {
 
 	SLinkedList<string> stringList;
 
-	/*for(i = 0; i < 100; i++)
+	for(i = 0; i < 100; i++)
 	{		
 		char szBuff[100];	
 		sprintf(szBuff, "Customer %d", (i + 1));
 		string val = szBuff;
 		stringList.addLast(val);
 	}
-	stringList.print();*/
+	stringList.print();
 
 	return 0;
 }
